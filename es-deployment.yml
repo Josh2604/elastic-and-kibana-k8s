@@ -30,9 +30,9 @@ spec:
         resources: {}
         volumeMounts:
         - name: es-config
-          mounthPath: /usr/share/elasticsearch/config/
+          mountPath: /usr/share/elasticsearch/config/
         - name: es-data
-          mounthPath: /usr/share/elasticsearch/data/
+          mountPath: /usr/share/elasticsearch/data/
         env:
         - name: discovery.type
           value: single-node
