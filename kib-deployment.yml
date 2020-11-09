@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kib-deployment
+  name: kib-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kib-deployment
+  template:
+    metadata:
+      labels:
+        app: kib-deployment
+    spec:
+      volumes:
+      - name: kib-storage
+        hostPath:
+          path: /var/lib/kibana/config/
+          type: Directory
+      containers:
+      - name: kibana
+        image: kibana:7.9.3
+        imagePullPolicy: IfNotPresent
+        resources: {}
+        volumeMounts:
+        - name: kib-storage
+          mountPath: /usr/share/kibana/config/
+        # env:
+        # - name: ELASTICSEARCH_HOSTS
+        #   value: http://10.100.125.45:9200/
+        # kubectl set env deployments/kib-deployment ELASTICSEARCH_HOSTS=http://es-ip:9200

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: es-deployment
+  name: es-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: es-deployment
+  template:
+    metadata:
+      labels:
+        app: es-deployment
+    spec:
+      volumes:
+      - name: es-config
+        hostPath:
+          path: /var/lib/elasticsearch/config/
+          type: Directory
+      - name: es-data
+        hostPath:
+          path: /var/lib/elasticsearch/data/
+          type: Directory
+      containers:
+      - name: elasticsearch
+        image: elasticsearch:7.9.3
+        imagePullPolicy: IfNotPresent
+        resources: {}
+        volumeMounts:
+        - name: es-config
+          mounthPath: /usr/share/elasticsearch/config/
+        - name: es-data
+          mounthPath: /usr/share/elasticsearch/data/
+        env:
+        - name: discovery.type
+          value: single-node
